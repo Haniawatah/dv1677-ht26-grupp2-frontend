@@ -9,7 +9,7 @@ Frontend byggd med React och Vite för hantering av dokument.
 
 ## Länkar
 - **Driftsatt Frontend (GitHub Pages):** [Länk kommer sen...]
-- **Backend API:** http://:3000/api/documents
+- **Backend API:** https://dv1677-data.nplab.bth.se/api/documents
 
 ## Kör projektet lokalt
 1. Installera beroenden: `npm install`
