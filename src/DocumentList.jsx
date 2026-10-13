@@ -9,7 +9,7 @@ export default function DocumentList() {
 
   useEffect(() => {
     getDocuments()
-      .then(setDocuments)
+      .then(data => setDocuments(data.data))
       .catch(setError)
       .finally(() => setLoading(false))
   }, [])
@@ -31,13 +31,13 @@ export default function DocumentList() {
     )
   }
 
-  console.log(documents.data);
+  console.log(documents);
   return (
     <>
       <h2>Hel lista med dokument från backend</h2>
-      <p>{documents.data.length} dokument finns på servern.</p>
+      <p>{documents.length} dokument finns på servern.</p>
       <ul>
-        {documents.data.map((doc) => (
+        {documents.map((doc) => (
           <li key={doc._id}>
             <Link to={`/documents/${doc._id}`}>
               <span>{doc.title}</span>
