@@ -16,3 +16,9 @@ npm install
 ```bash
 npm run dev
 ```
+
+**Miljövariabler:**
+
+| Miljövariabel | Förklaring | Exempel |
+|---------------|------------|---------|
+| VITE_API_URL | Repository variable för att koppla mot backend-API | https://dv1677-data.nplab.bth.se |
