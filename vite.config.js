@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
-    base: '/dv1677-ht26-grupp2-frontend',
+    base: '/dv1677-ht26-grupp2-frontend/',
     server: {
       port: 5173,
       proxy: {
