@@ -22,7 +22,7 @@ export default function SingleDocument() {
     console.log(document);
     return (
         <div>
-            <Link to="/documents">&larr; Tillbaka</Link>
+            <Link to="/">&larr; Tillbaka</Link>
             <p>Dokument med _id: {id}</p>
             <h1>{document.title}</h1>
 

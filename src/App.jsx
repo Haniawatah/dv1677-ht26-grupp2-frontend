@@ -14,7 +14,7 @@ function App() {
     </div>
     <div className='submenu'>
       <Routes>
-        <Route path="/documents" element={<DocumentList />} />
+        <Route path="/" element={<DocumentList />} />
         <Route path="/documents/:id" element={<SingleDocument />} />
       </Routes>
     </div>
