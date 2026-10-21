@@ -3,6 +3,11 @@ import { decodeToken } from './decodeToken.js'
 
 const AuthContext = createContext(null)
 
+// Shared with api.js so a 401 can clear the token and trigger the redirect.
+export function logout() {
+  localStorage.removeItem('token')
+}
+
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => localStorage.getItem('token'))
   const [user, setUser] = useState(() => decodeToken(localStorage.getItem('token')))
@@ -13,14 +18,14 @@ export function AuthProvider({ children }) {
     setUser(decodeToken(newToken))
   }
 
-  function logout() {
-    localStorage.removeItem('token')
+  function handleLogout() {
+    logout()
     setToken(null)
     setUser(null)
   }
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout }}>
+    <AuthContext.Provider value={{ token, user, login, logout: handleLogout }}>
       {children}
     </AuthContext.Provider>
   )
