@@ -1,26 +1,58 @@
-import { useState } from 'react'
-import { Routes, Route, Link } from "react-router-dom"
+import { useNavigate, Routes, Route } from 'react-router-dom'
 import DocumentList from './DocumentList.jsx'
 import './App.css'
 import SingleDocument from './SingleDocument.jsx'
-/////////// This code gonna be replaced later///////
+import Login from './Login.jsx'
+import Register from './Register.jsx'
+import ProtectedRoute from './components/ProtectedRoute.jsx'
+import { useAuth } from './context/AuthContext.jsx'
+
 function App() {
+  const { token, user, logout } = useAuth()
+  const navigate = useNavigate()
+
+  function handleLogout() {
+    logout()
+    navigate('/login')
+  }
+
   return (
     <>
-    <div className="app">
-      <header>
-        <h1>TextEditor</h1>
-      </header>
-    </div>
-    <div className='submenu'>
-      <Routes>
-        <Route path="/" element={<DocumentList />} />
-        <Route path="/documents/:id" element={<SingleDocument />} />
-      </Routes>
-    </div>
-      <div className="ticks"></div>
-        Hej hej från App.jsx
-      <div className="ticks"></div>
+      <div className="app">
+        <header>
+          <h1>TextEditor</h1>
+          {token && (
+            <div className="user-info">
+              <span>{user?.email}</span>
+              <button className="logout-button" onClick={handleLogout}>
+                Logga ut
+              </button>
+            </div>
+          )}
+        </header>
+      </div>
+      <div className="submenu">
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <DocumentList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/documents/:id"
+            element={
+              <ProtectedRoute>
+                <SingleDocument />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </div>
       <section id="spacer"></section>
     </>
   )
