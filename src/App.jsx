@@ -8,19 +8,16 @@ function App() {
   return (
     <>
     <div className="app">
-      <header>
-        <h1>TextEditor</h1>
-      </header>
-    </div>
+        <header>
+          <h1>TextEditor</h1>
+        </header>
+      </div>
     <div className='submenu'>
       <Routes>
         <Route path="/" element={<DocumentList />} />
         <Route path="/documents/:id" element={<SingleDocument />} />
       </Routes>
     </div>
-      <div className="ticks"></div>
-        Hej hej från App.jsx
-      <div className="ticks"></div>
       <section id="spacer"></section>
     </>
   )
