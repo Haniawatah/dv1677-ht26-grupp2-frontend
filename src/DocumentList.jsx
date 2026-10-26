@@ -31,7 +31,6 @@ export default function DocumentList() {
     )
   }
 
-  console.log(documents);
   return (
     <>
       <h2>Hel lista med dokument från backend</h2>
