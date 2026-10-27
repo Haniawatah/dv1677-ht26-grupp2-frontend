@@ -16,13 +16,11 @@ export default function SingleDocument() {
     }, [id])
 
     if (error) return <p>Kunde inte läs in dokumentet.</p>
-    if (loading) return <p>Hämtar data...</p>
+    if (loading) return <p>Hämtar datan...</p>
 
-    // console.log(id);
-    console.log(document);
     return (
         <div>
-            <Link to="/">&larr; Tillbaka</Link>
+            <Link to="/">&larr; tillbaka</Link>
             <p>Dokument med _id: {id}</p>
             <h1>{document.title}</h1>
 
