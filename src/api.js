@@ -41,10 +41,10 @@ export function getDocument(id) {
   return request(`/api/documents/${id}`)
 }
 
-export function createDocument(title, content, type, owner, createdAt) {
+export function createDocument(title, content, type, owner, createdAt, updatedAt) {
   return request('/api/documents', {
     method: 'POST',
-    body: JSON.stringify({ title, content, type, createdAt }), owner,
+    body: JSON.stringify({ title, content, type, createdAt, updatedAt }), owner,
   })
 }
 
