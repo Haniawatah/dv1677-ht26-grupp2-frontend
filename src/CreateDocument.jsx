@@ -8,18 +8,21 @@ export default function CreateDocument() {
     const [content, setContent] = useState('')
     const [type, setType] = useState('text')
     const [owner, setOwner] = useState('')
-    const [createdAt, setCreatedAt] = useState(new Date())
+    // const [createdAt, setCreatedAt] = useState(null)
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
     async function handleSubmit(event) {
+        const createdAt = Date();
+        const updatedAt = Date();
+        // await setVariables()
         event.preventDefault()
         setError(null)
         setLoading(true)
 
         try {
-            await createDocument(title, content, type, owner, createdAt)
+            await createDocument(title, content, type, owner, createdAt, updatedAt)
             navigate('/documents')
         } catch {
             setError('Något gick fel, kunde inte skapa dokumentet.')
@@ -27,6 +30,10 @@ export default function CreateDocument() {
             setLoading(false)
         }
     }
+
+    // function setVariables() {
+    //     console.log("hamnar den här?")
+    // }
 
     return (
         <div className="auth-form">
