@@ -41,10 +41,11 @@ export function getDocument(id) {
   return request(`/api/documents/${id}`)
 }
 
-export function createDocument(title, content) {
+// owner is not sent from the frontend, the backend sets it from the JWT token.
+export function createDocument(title, content, type, createdAt, updatedAt) {
   return request('/api/documents', {
     method: 'POST',
-    body: JSON.stringify({ title, content }),
+    body: JSON.stringify({ title, content, type, createdAt, updatedAt }),
   })
 }
 

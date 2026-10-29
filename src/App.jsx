@@ -2,6 +2,7 @@ import { useNavigate, Routes, Route } from 'react-router-dom'
 import DocumentList from './DocumentList.jsx'
 import './App.css'
 import SingleDocument from './SingleDocument.jsx'
+import CreateDocument from './CreateDocument.jsx'
 import Login from './Login.jsx'
 import Register from './Register.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
@@ -16,6 +17,10 @@ function App() {
     navigate('/login')
   }
 
+  function createDocument() {
+    navigate('/create')
+  }
+
   return (
     <>
       <div className="app">
@@ -24,6 +29,9 @@ function App() {
           {token && (
             <div className="user-info">
               <span>{user?.email}</span>
+              <button className="create-button" onClick={createDocument}>
+                Skapa nytt
+              </button>
               <button className="logout-button" onClick={handleLogout}>
                 Logga ut
               </button>
@@ -35,6 +43,22 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route
+            path="/create"
+            element={
+              <ProtectedRoute>
+                <CreateDocument />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/documents"
+            element={
+              <ProtectedRoute>
+                <DocumentList />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/"
             element={
