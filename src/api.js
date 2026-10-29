@@ -17,3 +17,19 @@ export function getDocuments() {
 export function getDocument(id) {
   return request(`/api/documents/${id}`);
 }
+
+export async function updateDocument(id, title, content) {
+  console.log(id)
+  console.log("2")
+  const res = await request(
+    `/api/documents/${id}`, 
+    {
+      method: 'PUT',
+      body: JSON.stringify({ title, content })
+    }
+  )
+  console.log(res)
+  console.log("7")
+  console.log(id)
+  return res;
+}
