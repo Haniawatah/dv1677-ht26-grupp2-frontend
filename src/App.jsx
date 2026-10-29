@@ -43,8 +43,22 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/create" element={<CreateDocument />} />
-          <Route path="/documents" element={<DocumentList />} />
+          <Route
+            path="/create"
+            element={
+              <ProtectedRoute>
+                <CreateDocument />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/documents"
+            element={
+              <ProtectedRoute>
+                <DocumentList />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/"
             element={

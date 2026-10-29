@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { useAuth } from './context/AuthContext.jsx';
+import { useNavigate } from 'react-router-dom';
 import { createDocument } from "./api.js";
 
 export default function CreateDocument() {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
-    const [type, setType] = useState('text')
-    const [owner, setOwner] = useState('')
-    // const [createdAt, setCreatedAt] = useState(null)
+    // The document type is always text for now, so it is a plain constant.
+    const type = 'text'
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
@@ -16,13 +14,12 @@ export default function CreateDocument() {
     async function handleSubmit(event) {
         const createdAt = Date();
         const updatedAt = Date();
-        // await setVariables()
         event.preventDefault()
         setError(null)
         setLoading(true)
 
         try {
-            await createDocument(title, content, type, owner, createdAt, updatedAt)
+            await createDocument(title, content, type, createdAt, updatedAt)
             navigate('/documents')
         } catch {
             setError('Något gick fel, kunde inte skapa dokumentet.')
@@ -30,10 +27,6 @@ export default function CreateDocument() {
             setLoading(false)
         }
     }
-
-    // function setVariables() {
-    //     console.log("hamnar den här?")
-    // }
 
     return (
         <div className="auth-form">
