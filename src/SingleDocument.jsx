@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { getDocument, getDocuments } from "./api.js";
+import { useParams, Link, Navigate } from "react-router-dom";
+import { getDocument, getDocuments, updateDocument } from "./api.js";
 import { Editor } from "@monaco-editor/react";
 
 export default function SingleDocument() {
@@ -8,6 +8,31 @@ export default function SingleDocument() {
     const [document, setDocument] = useState([])
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [title, setTitle] = useState()
+    const [content, setContent] = useState()
+
+    async function handleSubmit(event) {
+        event.preventDefault()
+        setError(null)
+        setLoading(true)
+
+        try {
+            console.log("Nu uppdateras id, title och content")
+            console.log(id)
+            console.log(title)
+            console.log(content)
+            console.log("1")
+            let res = await updateDocument(id, title, content)
+            console.log("res: ")
+            console.log(res)
+            console.log("9")
+            Navigate('/')
+        } catch {
+            // setError('Kunde inte uppdatera dokumentet.')
+        } finally {
+            setLoading(false)
+        }
+    }
 
     useEffect(() => {
         getDocument(id)
@@ -32,6 +57,7 @@ export default function SingleDocument() {
 
     // console.log(id);
     console.log(document);
+    // console.log(content);
 
     if (document.type == "code") {
         return (
@@ -107,26 +133,31 @@ export default function SingleDocument() {
                     </div>
                 </div>
                 <div className="right-box">
-                    <div className="doc-title-box">
-                        <h2>
-                            {document.title}
-                        </h2>
-                    </div>
+                    <form onSubmit={handleSubmit}>
+                        <div className="doc-title-box">
+                        <label>
+                            Titel:
+                            <input
+                                type="text"
+                                defaultValue={document.title}
+                                onChange={(event) => setTitle(event.target.value)}
+                                required
+                            />
+                        </label>
+                        </div>
 
-                    <div className="editor-window">
-                        
-                    <div>
-                        {/* <p>Dokument med _id: {id}</p> */}
-
-                        <textarea className="document-text-area">
-                            {document.content}
-                        </textarea>
-                        
-                    </div>
-                    
-                        <Link to="/">&larr; Tillbaka</Link>
-                    </div>
-
+                        <div className="editor-window">
+                            <textarea
+                                className="document-text-area"
+                                defaultValue={document.content}
+                                onChange={(event) => setContent(event.target.value)}
+                            />
+                        </div>
+                        <button type="submit" disabled={loading}>
+                            {loading ? 'Uppdaterar...' : 'Uppdatera'}
+                        </button>
+                    </form>
+                            <Link to="/">&larr; Tillbaka</Link>
                 </div>
             </div>
             </>
