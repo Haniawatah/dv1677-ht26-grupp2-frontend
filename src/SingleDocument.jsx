@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState, useRef } from "react";
 import { useParams, Link, Navigate, useNavigate } from "react-router-dom";
 import { getDocument, getDocuments, updateDocument } from "./api.js";
 import { Editor } from "@monaco-editor/react";
+import { useAuth } from "./context/AuthContext.jsx";
 
 const AUTOSAVE_DELAY = 1000
 
@@ -16,6 +17,7 @@ export default function SingleDocument() {
     const autosaveRef = useRef(null)
     const [cursorPos, setCursorPos]   = useState({ line: 1, column: 1 })
     const [saveStatus, setSaveStatus] = useState('saved') // 'saved' | 'saving' | 'error'
+    const { token } = useAuth()
   
 
     useEffect(() => () => clearTimeout(autosaveRef.current), [])
@@ -39,12 +41,12 @@ export default function SingleDocument() {
         clearTimeout(autosaveRef.current)
         setSaveStatus("saving")
 
-        // console.log("Innte i scheduleSave")
+        console.log("Innte i scheduleSave")
         // console.log(title)
         // console.log(content)
         autosaveRef.current = setTimeout(async () => {
             try {
-                await updateDocument(id, content)
+                await updateDocument(token, id, content)
                 // await updateDocument(id, title, content)
                 setSaveStatus("saved")
             } catch {

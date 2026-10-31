@@ -41,12 +41,12 @@ export function getDocument(id) {
   return request(`/api/documents/${id}`);
 }
 
-export async function updateDocument(id, content) {
+export async function updateDocument(token, id, content) {
 // export async function updateDocument(id, title, content) {
   const res = await fetch(BASE_URL + `/api/documents/${id}/`, 
     {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
       body: JSON.stringify({ content })
       // body: JSON.stringify({ title, content })
     }
