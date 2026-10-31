@@ -38,6 +38,20 @@ export function getDocuments() {
 }
 
 export function getDocument(id) {
+  return request(`/api/documents/${id}`);
+}
+
+export async function updateDocument(id, content) {
+// export async function updateDocument(id, title, content) {
+  const res = await fetch(BASE_URL + `/api/documents/${id}/`, 
+    {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content })
+      // body: JSON.stringify({ title, content })
+    }
+  )
+  return res;
   return request(`/api/documents/${id}`)
 }
 
@@ -46,13 +60,6 @@ export function createDocument(title, content, type, createdAt, updatedAt) {
   return request('/api/documents', {
     method: 'POST',
     body: JSON.stringify({ title, content, type, createdAt, updatedAt }),
-  })
-}
-
-export function updateDocument(id, title, content) {
-  return request(`/api/documents/${id}`, {
-    method: 'PUT',
-    body: JSON.stringify({ title, content }),
   })
 }
 

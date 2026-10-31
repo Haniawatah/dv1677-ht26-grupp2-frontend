@@ -30,20 +30,26 @@ export default function DocumentList() {
       </div>
     )
   }
-
   return (
     <>
       <h2>Hel lista med dokument från backend</h2>
       <p>{documents.length} dokument finns på servern.</p>
-      <ul>
+      <div className="doc-list">
         {documents.map((doc) => (
-          <li key={doc._id}>
-            <Link to={`/documents/${doc._id}`}>
-              <span>{doc.title}</span>
-            </Link>
-          </li>
+          <>
+          <div className="doc-name-cell">
+            {doc.title}
+          </div>
+          <div className="doc-type-cell">
+            {doc.type}
+          </div>
+          <div className="doc-link-cell">
+            <Link to={`/documents/${doc._id}`}>Editor</Link>
+          </div>
+          </>
         ))}
-      </ul>
+      </div>
+
     </>
   )
 }
