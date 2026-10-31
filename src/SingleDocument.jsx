@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getDocument } from "./api.js";
+import Comments from "./components/Comments.jsx";
 
 export default function SingleDocument() {
     const { id } = useParams()
@@ -27,6 +28,7 @@ export default function SingleDocument() {
             <p>
                 {document.content}
             </p>
+            <Comments documentId={id} />
         </div>
     )
 }

@@ -86,3 +86,20 @@ export async function registerUser(email, password) {
   )
   return data.data.token ?? data.data
 }
+
+export function getComments(docId) {
+  return request(`/api/documents/${docId}/comments`)
+}
+
+export function createComment(docId, line, text) {
+  return request(`/api/documents/${docId}/comments`, {
+    method: 'POST',
+    body: JSON.stringify({ line, text }),
+  })
+}
+
+export function deleteComment(docId, commentId) {
+  return request(`/api/documents/${docId}/comments/${commentId}`, {
+    method: 'DELETE',
+  })
+}
