@@ -30,8 +30,6 @@ export default function DocumentList() {
       </div>
     )
   }
-
-  console.log(documents);
   return (
     <>
       <h2>Hel lista med dokument från backend</h2>
@@ -52,16 +50,6 @@ export default function DocumentList() {
         ))}
       </div>
 
-
-      {/* <ul>
-        {documents.map((doc) => (
-          <li key={doc._id}>
-            <Link to={`/documents/${doc._id}`}>
-              <span>{doc.title}</span>
-            </Link>
-          </li>
-        ))}
-      </ul> */}
     </>
   )
 }
