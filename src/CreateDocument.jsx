@@ -5,7 +5,7 @@ import { createDocument } from "./api.js";
 export default function CreateDocument() {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
-    // The document type is always text for now, so it is a plain constant.
+    // The document type is always text in this case, so it is a plain constant.
     const type = 'text'
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -30,7 +30,7 @@ export default function CreateDocument() {
 
     return (
         <div className="auth-form">
-            <h2>Skapa dokument</h2>
+            <h2>Skapa Textdokument</h2>
             {error && <div className="error">{error}</div>}
 
             <form onSubmit={handleSubmit}>
