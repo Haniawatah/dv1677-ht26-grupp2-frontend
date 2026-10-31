@@ -93,7 +93,7 @@ export default function SingleDocument() {
     }, [])
 
     if (error) return <p>Kunde inte läs in dokumentet.</p>
-    if (loading) return <p>Hämtar data...</p>
+    if (loading) return <p>Hämtar datan...</p>
 
 
     if (document.type == "code") {
