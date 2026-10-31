@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
-import { useParams, Link, Navigate } from "react-router-dom";
+import { useCallback, useEffect, useState, useRef } from "react";
+import { useParams, Link, Navigate, useNavigate } from "react-router-dom";
 import { getDocument, getDocuments, updateDocument } from "./api.js";
 import { Editor } from "@monaco-editor/react";
+
+const AUTOSAVE_DELAY = 1000
 
 export default function SingleDocument() {
     const { id } = useParams()
@@ -10,28 +12,66 @@ export default function SingleDocument() {
     const [loading, setLoading] = useState(true)
     const [title, setTitle] = useState()
     const [content, setContent] = useState()
+    const editorRef = useRef(null)
+    const autosaveRef = useRef(null)
+    const [cursorPos, setCursorPos]   = useState({ line: 1, column: 1 })
+    const [saveStatus, setSaveStatus] = useState('saved') // 'saved' | 'saving' | 'error'
+  
 
-    async function handleSubmit(event) {
-        event.preventDefault()
-        setError(null)
-        setLoading(true)
+    useEffect(() => () => clearTimeout(autosaveRef.current), [])
 
-        try {
-            console.log("Nu uppdateras id, title och content")
-            console.log(id)
-            console.log(title)
-            console.log(content)
-            console.log("1")
-            let res = await updateDocument(id, title, content)
-            console.log("res: ")
-            console.log(res)
-            console.log("9")
-            Navigate('/')
-        } catch {
-            // setError('Kunde inte uppdatera dokumentet.')
-        } finally {
-            setLoading(false)
+    // Sätt alla variabler för editorn utifrån hämtat dokument
+    useEffect(() => {
+        if (typeof content === "undefined") {
+            setContent(document.content)
         }
+        if (typeof title === "undefined") {
+            setTitle(document.title)
+        }
+    })
+    // console.log("title")
+    // console.log(title)
+    // console.log("content")
+    // console.log(content)
+
+    const scheduleSave = useCallback((content) => {
+        // console.log("Kommer vi hit?")
+        clearTimeout(autosaveRef.current)
+        setSaveStatus("saving")
+
+        // console.log("Innte i scheduleSave")
+        // console.log(title)
+        // console.log(content)
+        autosaveRef.current = setTimeout(async () => {
+            try {
+                await updateDocument(id, content)
+                // await updateDocument(id, title, content)
+                setSaveStatus("saved")
+            } catch {
+                setSaveStatus("error")
+            }
+        }, AUTOSAVE_DELAY)
+    }, [id])
+
+    function handleEditorDidMount(editor) {
+        // console.log("Kommer vi hit, handleEditor?")
+        // console.log(title)
+        editorRef.current = editor
+
+        editor.onDidChangeModelContent(e => {
+            const content = editor.getValue()
+            setTitle(document.title)
+            scheduleSave(content)
+            // scheduleSave(title, content)
+            setContent(content)
+        })
+    }
+
+    // Om ett textfält uppdateras så skickas detta till databasen
+    function updateInput(content) {
+        // console.log("Inne i updateInput:")
+        setContent(content)
+        scheduleSave(content)
     }
 
     useEffect(() => {
@@ -55,9 +95,6 @@ export default function SingleDocument() {
     if (error) return <p>Kunde inte läs in dokumentet.</p>
     if (loading) return <p>Hämtar data...</p>
 
-    // console.log(id);
-    console.log(document);
-    // console.log(content);
 
     if (document.type == "code") {
         return (
@@ -73,44 +110,50 @@ export default function SingleDocument() {
                         </p>
                         <ul>
                         {documents.map((doc) => (
-                            <>
-                                <li key="{doc._id}">{doc.title}</li>
-                            </>
+                            <div className="doc-link-cell">
+                                <Link to={`/documents/${doc._id}`}>{doc.title}</Link>
+                            </div>
                             ))}
                         </ul>
                     </div>
 
                 </div>
                 <div className="right-box">
-                    <div className="doc-title-box">
+                        <div className="doc-title-box">
                         <h2>
                             {document.title}
                         </h2>
-                    </div>
+                        </div>
 
                     <div className="editor-window">
                         <Editor
                             height="60vh"
                             language="javascript"
                             // language={language}          // 'javascript', 'python', 'json', ...
-                            value={document.content}
-                            // onChange={onChange}
+                            defaultValue={document.content}
+                            onMount={handleEditorDidMount}
                             theme="vs-dark"
                             options={{
                             minimap: { enabled: false },
+                            lineNumbers: 'on',
                             fontSize: 14
                             }}
                         />
+                        </div>
 
-                        
-                    
+                        <div className="editor-statusbar">
+                            <span className={`save-status save-status--${saveStatus}`}>
+                            {saveStatus === 'saved'  && '✓ Sparad'}
+                            {saveStatus === 'saving' && '↻ Sparar…'}
+                            {saveStatus === 'error'  && '✕ Sparfel'}
+                            </span>
+                        </div>
                         <Link to="/">&larr; Tillbaka</Link>
                     </div>
 
-                </div>
             </div>
             </>
-        )
+            )
     } else {
         return (
             <>
@@ -125,38 +168,34 @@ export default function SingleDocument() {
                         </p>
                         <ul>
                         {documents.map((doc) => (
-                            <>
-                                <li key="{doc._id}">{doc.title}</li>
-                            </>
+                            <div className="doc-link-cell">
+                                <Link to={`/documents/${doc._id}`}>{doc.title}</Link>
+                            </div>
                             ))}
                         </ul>
                     </div>
                 </div>
                 <div className="right-box">
-                    <form onSubmit={handleSubmit}>
                         <div className="doc-title-box">
-                        <label>
-                            Titel:
-                            <input
-                                type="text"
-                                defaultValue={document.title}
-                                onChange={(event) => setTitle(event.target.value)}
-                                required
-                            />
-                        </label>
+                        <h2>
+                            {document.title}
+                        </h2>
                         </div>
 
                         <div className="editor-window">
                             <textarea
                                 className="document-text-area"
                                 defaultValue={document.content}
-                                onChange={(event) => setContent(event.target.value)}
+                                onChange={(event) => updateInput((event.target.value))}
                             />
                         </div>
-                        <button type="submit" disabled={loading}>
-                            {loading ? 'Uppdaterar...' : 'Uppdatera'}
-                        </button>
-                    </form>
+                        <div className="editor-statusbar">
+                            <span className={`save-status save-status--${saveStatus}`}>
+                            {saveStatus === 'saved'  && '✓ Sparad'}
+                            {saveStatus === 'saving' && '↻ Sparar…'}
+                            {saveStatus === 'error'  && '✕ Sparfel'}
+                            </span>
+                        </div>
                             <Link to="/">&larr; Tillbaka</Link>
                 </div>
             </div>
