@@ -46,6 +46,9 @@ export default function DocumentList() {
           <div className="doc-link-cell">
             <Link to={`/documents/${doc._id}`}>Editor</Link>
           </div>
+          <div className="doc-edit-cell">
+            <Link to={`/edit/${doc._id}`}>Edit</Link>
+          </div>
           </>
         ))}
       </div>
