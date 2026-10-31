@@ -3,6 +3,7 @@ import DocumentList from './DocumentList.jsx'
 import './App.css'
 import SingleDocument from './SingleDocument.jsx'
 import CreateDocument from './CreateDocument.jsx'
+import CreateCode from './CreateCode.jsx'
 import Login from './Login.jsx'
 import Register from './Register.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
@@ -18,7 +19,11 @@ function App() {
   }
 
   function createDocument() {
-    navigate('/create')
+    navigate('/createtext')
+  }
+
+  function createCode() {
+    navigate('createcode')
   }
 
   return (
@@ -29,8 +34,11 @@ function App() {
           {token && (
             <div className="user-info">
               <span>{user?.email}</span>
-              <button className="create-button" onClick={createDocument}>
-                Skapa nytt
+              <button className="create-doc-button" onClick={createDocument}>
+                Skapa Text
+              </button>
+              <button className="create-code-button" onClick={createCode}>
+                Skapa Kod
               </button>
               <button className="logout-button" onClick={handleLogout}>
                 Logga ut
@@ -44,10 +52,18 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route
-            path="/create"
+            path="/createtext"
             element={
               <ProtectedRoute>
                 <CreateDocument />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/createcode"
+            element={
+              <ProtectedRoute>
+                <CreateCode />
               </ProtectedRoute>
             }
           />
