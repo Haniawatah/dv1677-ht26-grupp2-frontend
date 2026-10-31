@@ -120,4 +120,14 @@
   flex-direction: column;
 }
 
+.document-text-area {
+  height: 60vh;
+  width: 60em;
+  resize: none;
+}
+
+.editor-statusbar {
+
+}
+
 /* ------------------------------------------------ */
