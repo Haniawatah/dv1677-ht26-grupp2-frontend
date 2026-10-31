@@ -52,7 +52,19 @@ export async function updateDocument(token, id, content) {
     }
   )
   return res;
-  return request(`/api/documents/${id}`)
+  // return request(`/api/documents/${id}`)
+}
+
+export async function updateDocumentTitle(token, id, title) {
+  const res = await fetch(BASE_URL + `/api/documents/${id}/`, 
+    {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ title })
+      // body: JSON.stringify({ title, content })
+    }
+  )
+  return res;
 }
 
 // owner is not sent from the frontend, the backend sets it from the JWT token.
