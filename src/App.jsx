@@ -4,6 +4,7 @@ import './App.css'
 import SingleDocument from './SingleDocument.jsx'
 import CreateDocument from './CreateDocument.jsx'
 import CreateCode from './CreateCode.jsx'
+import EditSingleDocument from './EditSingleDocument.jsx'
 import Login from './Login.jsx'
 import Register from './Register.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
@@ -88,6 +89,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <SingleDocument />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit/:id"
+            element={
+              <ProtectedRoute>
+                <EditSingleDocument />
               </ProtectedRoute>
             }
           />
