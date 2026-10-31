@@ -3,6 +3,7 @@ import { useParams, Link, Navigate, useNavigate } from "react-router-dom";
 import { getDocument, getDocuments, updateDocument } from "./api.js";
 import { Editor } from "@monaco-editor/react";
 import { useAuth } from "./context/AuthContext.jsx";
+import Comments from "./components/Comments.jsx";
 
 const AUTOSAVE_DELAY = 1000
 
@@ -98,7 +99,8 @@ export default function SingleDocument() {
     if (loading) return <p>Hämtar datan...</p>
 
 
-    if (document.type == "code") {
+
+  if (document.type == "code") {
         return (
             <>
             <div className="main-box">
@@ -151,6 +153,7 @@ export default function SingleDocument() {
                             </span>
                         </div>
                         <Link to="/">&larr; Tillbaka</Link>
+                        <Comments documentId={id} />
                     </div>
 
             </div>
@@ -199,6 +202,7 @@ export default function SingleDocument() {
                             </span>
                         </div>
                             <Link to="/">&larr; Tillbaka</Link>
+                            <Comments documentId={id} />
                 </div>
             </div>
             </>
