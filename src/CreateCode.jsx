@@ -24,7 +24,6 @@ export default function CreateCode() {
         setError(null)
         setLoading(true)
         const content = editorRef.current.getValue()
-        console.log(content)
 
         try {
             await createDocument(title, content, type, createdAt, updatedAt)
@@ -37,7 +36,7 @@ export default function CreateCode() {
     }
 
     return (
-        <div className="auth-form">
+        <div className="auth-form auth-form--wide">
             <h2>Skapa Kod-dokument</h2>
             {error && <div className="error">{error}</div>}
 
@@ -52,15 +51,11 @@ export default function CreateCode() {
                     />
                 </label>
 
-                <label>
-                     Innehåll
-                     <Editor
-                        name="content"
-                        height="60vh"
+                <div className="editor-field">
+                    <span className="label">Innehåll</span>
+                    <Editor
+                        height="70vh"
                         language="javascript"
-                        // language={language}          // 'javascript', 'python', 'json', ...
-                        // defaultValue={content}
-                        // onChange={(event) => setContent(event.target.value)}
                         onMount={handleEditorDidMount}
                         theme="vs-dark"
                         options={{
@@ -69,14 +64,7 @@ export default function CreateCode() {
                         fontSize: 14
                         }}
                     />
-                     {/* <textarea
-                        name="content"
-                        rows={8}
-                        cols={100}
-                        defaultValue={content}
-                        required
-                    /> */}
-                </label>
+                </div>
 
                 <button 
                     type="submit" 

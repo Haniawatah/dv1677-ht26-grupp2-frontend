@@ -32,19 +32,11 @@ export default function SingleDocument() {
             setTitle(document.title)
         }
     })
-    // console.log("title")
-    // console.log(title)
-    // console.log("content")
-    // console.log(content)
 
     const scheduleSave = useCallback((content) => {
-        // console.log("Kommer vi hit?")
         clearTimeout(autosaveRef.current)
         setSaveStatus("saving")
 
-        console.log("Innte i scheduleSave")
-        // console.log(title)
-        // console.log(content)
         autosaveRef.current = setTimeout(async () => {
             try {
                 await updateDocument(token, id, content)
@@ -57,8 +49,6 @@ export default function SingleDocument() {
     }, [id])
 
     function handleEditorDidMount(editor) {
-        // console.log("Kommer vi hit, handleEditor?")
-        // console.log(title)
         editorRef.current = editor
 
         editor.onDidChangeModelContent(e => {
@@ -72,7 +62,6 @@ export default function SingleDocument() {
 
     // Om ett textfält uppdateras så skickas detta till databasen
     function updateInput(content) {
-        // console.log("Inne i updateInput:")
         setContent(content)
         scheduleSave(content)
     }
@@ -109,9 +98,6 @@ export default function SingleDocument() {
                         Senaste dokumenten
                     </div>
                     <div className="document-box">
-                        <p>
-                            Här ska de fem? senaste redigerade dokumenten vara.
-                        </p>
                         <ul>
                         {documents.map((doc) => (
                             <div className="doc-link-cell">
@@ -131,7 +117,7 @@ export default function SingleDocument() {
 
                     <div className="editor-window">
                         <Editor
-                            height="60vh"
+                            height="70vh"
                             language="javascript"
                             // language={language}          // 'javascript', 'python', 'json', ...
                             defaultValue={document.content}
@@ -168,9 +154,6 @@ export default function SingleDocument() {
                         Senaste dokumenten
                     </div>
                     <div className="document-box">
-                        <p>
-                            Här ska de fem? senaste redigerade dokumenten vara.
-                        </p>
                         <ul>
                         {documents.map((doc) => (
                             <div className="doc-link-cell">

@@ -29,7 +29,7 @@ export default function CreateDocument() {
     }
 
     return (
-        <div className="auth-form">
+        <div className="auth-form auth-form--wide">
             <h2>Skapa Textdokument</h2>
             {error && <div className="error">{error}</div>}
 
@@ -48,8 +48,7 @@ export default function CreateDocument() {
                      Innehåll
                      <textarea
                         name="content"
-                        rows={8}
-                        cols={100}
+                        rows={18}
                         defaultValue={content}
                         onChange={(event) => setContent(event.target.value)}
                         required

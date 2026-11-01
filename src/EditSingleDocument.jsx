@@ -6,7 +6,6 @@ import { useEffect } from "react";
 
 export default function EditSingleDocument() {
     const { id } = useParams();
-    console.log(id)
     const [document, setDocument] = useState([])
     const [title, setTitle] = useState(document.title)
     const [error, setError] = useState(null)
