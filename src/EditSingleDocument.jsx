@@ -73,7 +73,7 @@ export default function EditSingleDocument() {
                     type="submit"
                     disabled={loading}
                 >
-                    Uppdatera
+                    Uppdatera titel
                 </button>
             </form>
 
@@ -83,7 +83,7 @@ export default function EditSingleDocument() {
                     type="submit"
                     disabled={loading}
                 >
-                    Radera
+                    Radera dokumentet
                 </button>
             </form>
                             <Link to="/">&larr; Tillbaka</Link>
