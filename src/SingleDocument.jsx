@@ -95,7 +95,7 @@ export default function SingleDocument() {
             <div className="main-box">
                 <div className="left-box">
                     <div className="left-title">
-                        Senaste dokumenten
+                        Snabbmeny
                     </div>
                     <div className="document-box">
                         <ul>
@@ -119,13 +119,13 @@ export default function SingleDocument() {
                         <Editor
                             height="70vh"
                             language="javascript"
-                            // language={language}          // 'javascript', 'python', 'json', ...
                             defaultValue={document.content}
                             onMount={handleEditorDidMount}
                             theme="vs-dark"
                             options={{
-                            minimap: { enabled: false },
+                            minimap: { enabled: true },
                             lineNumbers: 'on',
+                            scrollBeyondLastLine: false,
                             fontSize: 14
                             }}
                         />
@@ -151,7 +151,7 @@ export default function SingleDocument() {
             <div className="main-box">
                 <div className="left-box">
                     <div className="left-title">
-                        Senaste dokumenten
+                        Snabbmeny
                     </div>
                     <div className="document-box">
                         <ul>
